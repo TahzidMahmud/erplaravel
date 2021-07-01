@@ -15,6 +15,7 @@ class CreateMainAccountsTable extends Migration
     {
         Schema::create('main_accounts', function (Blueprint $table) {
             $table->id();
+
             $table->timestamps();
         });
     }

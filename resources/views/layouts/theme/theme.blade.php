@@ -847,7 +847,6 @@
   </aside>
 
     <div id="app">
-
         <main class="py-4">
             <body class="hold-transition sidebar-mini layout-fixed">
             @yield('content')
@@ -867,7 +866,8 @@
     <!-- Control sidebar content goes here -->
   </aside>
   <!-- /.control-sidebar -->
-<!-- jQuery -->
+  <script>window.Laravel = {csrfToken: '{{ csrf_token() }}'}</script>
+  <!-- jQuery -->
 <script src="{{ asset('plugins/jquery/jquery.min.js') }}"></script>
 <!-- jQuery UI 1.11.4 -->
 <script src="{{ asset('plugins/jquery-ui/jquery-ui.min.js') }}"></script>
