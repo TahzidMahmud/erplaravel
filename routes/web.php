@@ -17,6 +17,8 @@ Route::get('/', function () {
     return view('dashboard');
 });
 
+Route::resource('account','MainAccountController');
+
 Auth::routes();
 
 Route::get('/home', 'HomeController@index')->name('home');
