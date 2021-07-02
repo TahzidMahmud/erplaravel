@@ -2021,6 +2021,64 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   props: {
     questions: Array,
@@ -2029,7 +2087,7 @@ __webpack_require__.r(__webpack_exports__);
   data: function data() {
     return {
       acccode: "",
-      codegen: "user",
+      codegen: "auto",
       account_type: "",
       account_desc: "",
       account_use: "",
@@ -2039,7 +2097,13 @@ __webpack_require__.r(__webpack_exports__);
       level3: ""
     };
   },
-  mounted: function mounted() {//    this.fill_arr();
+  mounted: function mounted() {
+    $("#example1").DataTable({
+      "responsive": true,
+      "lengthChange": false,
+      "autoWidth": false,
+      "buttons": ["copy", "csv", "excel", "pdf", "print", "colvis"]
+    }).buttons().container().appendTo('#example1_wrapper .col-md-6:eq(0)');
   },
   watch: {
     codegen: function codegen(val) {
@@ -19834,8 +19898,7 @@ var render = function() {
                       type: "radio",
                       value: "user",
                       name: "user",
-                      id: "user",
-                      checked: ""
+                      id: "user"
                     },
                     domProps: { checked: _vm._q(_vm.codegen, "user") },
                     on: {
@@ -19863,7 +19926,8 @@ var render = function() {
                       value: "auto",
                       type: "radio",
                       name: "auto",
-                      id: "auto"
+                      id: "auto",
+                      checked: ""
                     },
                     domProps: { checked: _vm._q(_vm.codegen, "auto") },
                     on: {
@@ -20205,7 +20269,9 @@ var render = function() {
             ])
           ])
         ])
-      ])
+      ]),
+      _vm._v(" "),
+      _vm._m(2)
     ]
   )
 }
@@ -20230,6 +20296,89 @@ var staticRenderFns = [
           staticClass: "form-control",
           attrs: { rows: "3", placeholder: "Enter ..." }
         })
+      ])
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "row" }, [
+      _c("div", { staticClass: "col-12" }, [
+        _c("div", { staticClass: "card" }, [
+          _c("div", { staticClass: "card-header" }, [
+            _c("h3", { staticClass: "card-title" }, [
+              _vm._v("DataTable with minimal features & hover style")
+            ])
+          ])
+        ]),
+        _vm._v(" "),
+        _c("div", { staticClass: "card" }, [
+          _c("div", { staticClass: "card-header" }, [
+            _c("h3", { staticClass: "card-title" }, [
+              _vm._v("DataTable with default features")
+            ])
+          ]),
+          _vm._v(" "),
+          _c("div", { staticClass: "card-body" }, [
+            _c(
+              "table",
+              {
+                staticClass: "table table-bordered table-striped",
+                attrs: { id: "example1" }
+              },
+              [
+                _c("thead", [
+                  _c("tr", [
+                    _c("th", [_vm._v("Rendering engine")]),
+                    _vm._v(" "),
+                    _c("th", [_vm._v("Browser")]),
+                    _vm._v(" "),
+                    _c("th", [_vm._v("Platform(s)")]),
+                    _vm._v(" "),
+                    _c("th", [_vm._v("Engine version")]),
+                    _vm._v(" "),
+                    _c("th", [_vm._v("CSS grade")])
+                  ])
+                ]),
+                _vm._v(" "),
+                _c("tbody", [
+                  _c("tr", [
+                    _c("td", [_vm._v("Trident")]),
+                    _vm._v(" "),
+                    _c("td", [
+                      _vm._v(
+                        "Internet\n              Explorer 4.0\n            "
+                      )
+                    ]),
+                    _vm._v(" "),
+                    _c("td", [_vm._v("Win 95+")]),
+                    _vm._v(" "),
+                    _c("td", [_vm._v(" 4")]),
+                    _vm._v(" "),
+                    _c("td", [_vm._v("X")])
+                  ]),
+                  _vm._v(" "),
+                  _c("tr", [
+                    _c("td", [_vm._v("dent")]),
+                    _vm._v(" "),
+                    _c("td", [
+                      _vm._v(
+                        "Internet\n              Explorer 5.0\n            "
+                      )
+                    ]),
+                    _vm._v(" "),
+                    _c("td", [_vm._v("Win 95+")]),
+                    _vm._v(" "),
+                    _c("td", [_vm._v(" 5")]),
+                    _vm._v(" "),
+                    _c("td", [_vm._v("X")])
+                  ])
+                ])
+              ]
+            )
+          ])
+        ])
       ])
     ])
   }
@@ -32591,7 +32740,7 @@ window._ = __webpack_require__(/*! lodash */ "./node_modules/lodash/lodash.js");
  */
 // try {
 //     window.Popper = require('popper.js').default;
-//     window.$ = window.jQuery = require('jquery');
+// window.$ = window.jQuery = require("jquery");
 // require("bootstrap");
 
 /**

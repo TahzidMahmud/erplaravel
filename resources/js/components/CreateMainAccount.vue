@@ -14,10 +14,10 @@
                       <label>Account Code</label>
                       <input type="text"  v-model="acccode" class="form-control" placeholder="Enter ...">
                        <div class="form-check">
-                        <input class="form-check-input" type="radio" v-model="codegen" value="user" name="user" id="user" checked>
+                        <input class="form-check-input" type="radio" v-model="codegen" value="user" name="user" id="user" >
                         <label class="form-check-label">User</label>
 
-                        <input class="form-check-input ml-2" value="auto" type="radio"  v-model="codegen" name="auto" id="auto">
+                        <input class="form-check-input ml-2" value="auto" type="radio"  v-model="codegen" name="auto" id="auto" checked>
                         <label class="form-check-label ml-4">Auto Generate</label>
                       </div>
                     </div>
@@ -106,6 +106,64 @@
                 </div>
               </form>
             </div>
+             <div class="row">
+        <div class="col-12">
+          <div class="card">
+            <div class="card-header">
+              <h3 class="card-title">DataTable with minimal features & hover style</h3>
+            </div>
+            <!-- /.card-header -->
+
+            <!-- /.card-body -->
+          </div>
+          <!-- /.card -->
+
+          <div class="card">
+            <div class="card-header">
+              <h3 class="card-title">DataTable with default features</h3>
+            </div>
+            <!-- /.card-header -->
+            <div class="card-body">
+              <table id="example1" class="table table-bordered table-striped">
+                <thead>
+                <tr>
+                  <th>Rendering engine</th>
+                  <th>Browser</th>
+                  <th>Platform(s)</th>
+                  <th>Engine version</th>
+                  <th>CSS grade</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr>
+                  <td>Trident</td>
+                  <td>Internet
+                    Explorer 4.0
+                  </td>
+                  <td>Win 95+</td>
+                  <td> 4</td>
+                  <td>X</td>
+                </tr>
+                <tr>
+                  <td>dent</td>
+                  <td>Internet
+                    Explorer 5.0
+                  </td>
+                  <td>Win 95+</td>
+                  <td> 5</td>
+                  <td>X</td>
+                </tr>
+
+                </tbody>
+
+              </table>
+            </div>
+            <!-- /.card-body -->
+          </div>
+          <!-- /.card -->
+        </div>
+        <!-- /.col -->
+      </div>
             <!-- /.card-body -->
           </div>
 
@@ -119,7 +177,7 @@
     },
     data: () => ({
        acccode:"",
-       codegen:"user",
+       codegen:"auto",
        account_type:"",
        account_desc:"",
        account_use:"",
@@ -129,7 +187,10 @@
        level3:""
     }),
     mounted() {
-        //    this.fill_arr();
+         $("#example1").DataTable({
+        "responsive": true, "lengthChange": false, "autoWidth": false,
+        "buttons": ["copy", "csv", "excel", "pdf", "print", "colvis"]
+        }).buttons().container().appendTo('#example1_wrapper .col-md-6:eq(0)');
     },
     watch: {
     codegen: function (val) {
