@@ -26,7 +26,9 @@ files.keys().map(key =>
         files(key).default
     )
 );
+import VueSimpleAlert from "vue-simple-alert";
 
+Vue.use(VueSimpleAlert);
 // Vue.component(
 //     "example-component",
 //     require("./components/ExampleComponent.vue").default

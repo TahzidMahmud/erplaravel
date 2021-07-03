@@ -868,6 +868,8 @@
   <aside class="control-sidebar control-sidebar-dark">
     <!-- Control sidebar content goes here -->
   </aside>
+  <!-- Bootstrap 4 -->
+<script src="{{ asset('plugins/bootstrap/js/bootstrap.bundle.min.js') }}"></script>
   <!-- /.control-sidebar -->
   <script>window.Laravel = {csrfToken: '{{ csrf_token() }}'}</script>
   <!-- jQuery -->
@@ -885,23 +887,6 @@
 <script src="{{ asset('plugins/datatables-buttons/js/buttons.html5.min.js')}}"></script>
 <script src="{{ asset('plugins/datatables-buttons/js/buttons.print.min.js')}}"></script>
 <script src="{{ asset('plugins/datatables-buttons/js/buttons.colVis.min.js')}}"></script>
-<script>
-    $(function () {
-    //   $("#example1").DataTable({
-    //     "responsive": true, "lengthChange": false, "autoWidth": false,
-    //     "buttons": ["copy", "csv", "excel", "pdf", "print", "colvis"]
-    //   }).buttons().container().appendTo('#example1_wrapper .col-md-6:eq(0)');
-    //   $('#example2').DataTable({
-    //     "paging": true,
-    //     "lengthChange": false,
-    //     "searching": false,
-    //     "ordering": true,
-    //     "info": true,
-    //     "autoWidth": false,
-    //     "responsive": true,
-    //   });
-    });
-  </script>
 <script src="{{ asset('js/app.js') }}" defer></script>
 <!-- jQuery UI 1.11.4 -->
 <script src="{{ asset('plugins/jquery-ui/jquery-ui.min.js') }}"></script>
@@ -909,8 +894,7 @@
 <script>
   $.widget.bridge('uibutton', $.ui.button);
 </script>
-<!-- Bootstrap 4 -->
-<script src="{{ asset('plugins/bootstrap/js/bootstrap.bundle.min.js') }}"></script>
+
 <!-- ChartJS -->
 <script src="{{ asset('plugins/chart.js/Chart.min.js') }}"></script>
 <!-- Sparkline -->

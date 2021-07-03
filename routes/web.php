@@ -18,6 +18,7 @@ Route::get('/', function () {
 });
 
 Route::resource('account','MainAccountController');
+Route::get('/last-mainacc/{type}','MainAccountController@lastacc');
 
 Auth::routes();
 
