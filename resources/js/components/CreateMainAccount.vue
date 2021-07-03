@@ -125,33 +125,14 @@
               <table id="example1" class="table table-bordered table-striped">
                 <thead>
                 <tr>
-                  <th>Rendering engine</th>
-                  <th>Browser</th>
-                  <th>Platform(s)</th>
-                  <th>Engine version</th>
-                  <th>CSS grade</th>
+                  <th>Account Code</th>
+                  <th>Account type</th>
+                  <th>Use Of Account</th>
+                  <th>Account Source</th>
+                  <th>Account Description</th>
                 </tr>
                 </thead>
                 <tbody>
-                <tr>
-                  <td>Trident</td>
-                  <td>Internet
-                    Explorer 4.0
-                  </td>
-                  <td>Win 95+</td>
-                  <td> 4</td>
-                  <td>X</td>
-                </tr>
-                <tr>
-                  <td>dent</td>
-                  <td>Internet
-                    Explorer 5.0
-                  </td>
-                  <td>Win 95+</td>
-                  <td> 5</td>
-                  <td>X</td>
-                </tr>
-
                 </tbody>
 
               </table>
@@ -182,17 +163,45 @@
        account_source:"",
        level1:"",
        level2:"",
-       level3:""
+       level3:"",
+       all_accounts:[],
+       data_table:null
     }),
     created(){
-        // this.getlast_account();
+
     },
     mounted() {
+//  "responsive": true, "lengthChange": false, "autoWidth": false,"searching": true,
+//  "buttons": ["copy", "csv", "excel", "pdf", "print", "colvis"]
+//  .buttons().container().appendTo('#example1_wrapper .col-md-6:eq(0)');
+         var data_table = $("#example1").DataTable({
 
-         $("#example1").DataTable({
-        "responsive": true, "lengthChange": false, "autoWidth": false,"searching": true,
-        "buttons": ["copy", "csv", "excel", "pdf", "print", "colvis"]
-        }).buttons().container().appendTo('#example1_wrapper .col-md-6:eq(0)');
+            "pageLength": 25,
+            "columnDefs": [
+
+                { "title": "Account Code","width": "20%" ,"targets":"0" },
+                { "title": "Account type", "width": "20%" ,"targets":"1"},
+                { "title": "Use Of Account", "width": "20%" ,"targets":"2"},
+                { "title": "Account Source", "width": "20%" ,"targets":"3"},
+                { "title": "Account Description", "width": "20%" ,"targets":"4"},
+            ],
+            "columns": [
+                // { "width": "25%", "render": function (data, type, JsonResultRow, meta) {
+                //     return '<img style="height:5rem;width:5rem;" src="./public/images/uploads/products/15/'+JsonResultRow.ximages+'">';
+                // } },
+                { "data": "acc" },
+                { "data": "acc_type" },
+                { "data": "acc_use" },
+                { "data": "acc_source" },
+                { "data": "acc_desc" },
+                // {  "width": "10%" , "render": function (data, type, JsonResultRow, meta) {
+                //     return '<button class="btn btn-success" onClick="openmodal('+JsonResultRow.xitemid+','+JsonResultRow.xstdprice+')">Add</button>';
+                // } }
+            ],
+
+                });
+                 this.populate_table(data_table);
+
 
     },
     watch: {
@@ -242,7 +251,6 @@
         },
 
         handle_submit(){
-            // e.preventDefault();
                let formData = new FormData();
                 formData.append('acc', this.acccode);
                 formData.append('acc_desc', this.account_desc);
@@ -261,8 +269,19 @@
                     }).then(r => {
                     console.log(r.value);
                     });
+                if(res.data.type=='success'){
+                    this.populate_table();
+                }
             }).catch((err)=>console.log(err));
 
+        },
+        populate_table(data_table){
+            axios.get(`/account`).then((res)=>{
+                this.all_accounts=res.data.accounts;
+                this.all_accounts.forEach(element => {
+                data_table.row.add(element).draw();
+                });
+            }).catch((err)=>console.log(err));
         }
 
     }

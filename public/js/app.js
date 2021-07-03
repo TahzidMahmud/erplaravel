@@ -2057,25 +2057,6 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
 /* harmony default export */ __webpack_exports__["default"] = ({
   props: {
     questions: Array,
@@ -2092,19 +2073,58 @@ __webpack_require__.r(__webpack_exports__);
       account_source: "",
       level1: "",
       level2: "",
-      level3: ""
+      level3: "",
+      all_accounts: [],
+      data_table: null
     };
   },
-  created: function created() {// this.getlast_account();
-  },
+  created: function created() {},
   mounted: function mounted() {
-    $("#example1").DataTable({
-      "responsive": true,
-      "lengthChange": false,
-      "autoWidth": false,
-      "searching": true,
-      "buttons": ["copy", "csv", "excel", "pdf", "print", "colvis"]
-    }).buttons().container().appendTo('#example1_wrapper .col-md-6:eq(0)');
+    //  "responsive": true, "lengthChange": false, "autoWidth": false,"searching": true,
+    //  "buttons": ["copy", "csv", "excel", "pdf", "print", "colvis"]
+    //  .buttons().container().appendTo('#example1_wrapper .col-md-6:eq(0)');
+    var data_table = $("#example1").DataTable({
+      "pageLength": 25,
+      "columnDefs": [{
+        "title": "Account Code",
+        "width": "20%",
+        "targets": "0"
+      }, {
+        "title": "Account type",
+        "width": "20%",
+        "targets": "1"
+      }, {
+        "title": "Use Of Account",
+        "width": "20%",
+        "targets": "2"
+      }, {
+        "title": "Account Source",
+        "width": "20%",
+        "targets": "3"
+      }, {
+        "title": "Account Description",
+        "width": "20%",
+        "targets": "4"
+      }],
+      "columns": [// { "width": "25%", "render": function (data, type, JsonResultRow, meta) {
+      //     return '<img style="height:5rem;width:5rem;" src="./public/images/uploads/products/15/'+JsonResultRow.ximages+'">';
+      // } },
+      {
+        "data": "acc"
+      }, {
+        "data": "acc_type"
+      }, {
+        "data": "acc_use"
+      }, {
+        "data": "acc_source"
+      }, {
+        "data": "acc_desc"
+      } // {  "width": "10%" , "render": function (data, type, JsonResultRow, meta) {
+      //     return '<button class="btn btn-success" onClick="openmodal('+JsonResultRow.xitemid+','+JsonResultRow.xstdprice+')">Add</button>';
+      // } }
+      ]
+    });
+    this.populate_table(data_table);
   },
   watch: {
     codegen: function codegen(val) {
@@ -2156,7 +2176,6 @@ __webpack_require__.r(__webpack_exports__);
     handle_submit: function handle_submit() {
       var _this2 = this;
 
-      // e.preventDefault();
       var formData = new FormData();
       formData.append('acc', this.acccode);
       formData.append('acc_desc', this.account_desc);
@@ -2174,6 +2193,23 @@ __webpack_require__.r(__webpack_exports__);
           timer: 3000
         }).then(function (r) {
           console.log(r.value);
+        });
+
+        if (res.data.type == 'success') {
+          _this2.populate_table();
+        }
+      })["catch"](function (err) {
+        return console.log(err);
+      });
+    },
+    populate_table: function populate_table(data_table) {
+      var _this3 = this;
+
+      axios.get("/account").then(function (res) {
+        _this3.all_accounts = res.data.accounts;
+
+        _this3.all_accounts.forEach(function (element) {
+          data_table.row.add(element).draw();
         });
       })["catch"](function (err) {
         return console.log(err);
@@ -23375,47 +23411,19 @@ var staticRenderFns = [
               [
                 _c("thead", [
                   _c("tr", [
-                    _c("th", [_vm._v("Rendering engine")]),
+                    _c("th", [_vm._v("Account Code")]),
                     _vm._v(" "),
-                    _c("th", [_vm._v("Browser")]),
+                    _c("th", [_vm._v("Account type")]),
                     _vm._v(" "),
-                    _c("th", [_vm._v("Platform(s)")]),
+                    _c("th", [_vm._v("Use Of Account")]),
                     _vm._v(" "),
-                    _c("th", [_vm._v("Engine version")]),
+                    _c("th", [_vm._v("Account Source")]),
                     _vm._v(" "),
-                    _c("th", [_vm._v("CSS grade")])
+                    _c("th", [_vm._v("Account Description")])
                   ])
                 ]),
                 _vm._v(" "),
-                _c("tbody", [
-                  _c("tr", [
-                    _c("td", [_vm._v("Trident")]),
-                    _vm._v(" "),
-                    _c("td", [
-                      _vm._v("Internet\n            Explorer 4.0\n          ")
-                    ]),
-                    _vm._v(" "),
-                    _c("td", [_vm._v("Win 95+")]),
-                    _vm._v(" "),
-                    _c("td", [_vm._v(" 4")]),
-                    _vm._v(" "),
-                    _c("td", [_vm._v("X")])
-                  ]),
-                  _vm._v(" "),
-                  _c("tr", [
-                    _c("td", [_vm._v("dent")]),
-                    _vm._v(" "),
-                    _c("td", [
-                      _vm._v("Internet\n            Explorer 5.0\n          ")
-                    ]),
-                    _vm._v(" "),
-                    _c("td", [_vm._v("Win 95+")]),
-                    _vm._v(" "),
-                    _c("td", [_vm._v(" 5")]),
-                    _vm._v(" "),
-                    _c("td", [_vm._v("X")])
-                  ])
-                ])
+                _c("tbody")
               ]
             )
           ])

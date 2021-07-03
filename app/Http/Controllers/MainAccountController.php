@@ -14,7 +14,9 @@ class MainAccountController extends Controller
      */
     public function index()
     {
-        //
+        $res=MainAccount::all();
+        return response(["accounts"=>$res]);
+
     }
     public function lastacc($type)
     {
