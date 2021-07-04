@@ -53,7 +53,7 @@ class MainAccountController extends Controller
             'level3'=>$request->level3
         ]);
         if($res){
-            return response(["message"=>"Created Successfully","type"=>"success"]);
+            return response(["message"=>"Created Successfully","type"=>"success","res"=>$res]);
         }else{
             return response(["message"=>"Can't create","type"=>"error"]);
         }

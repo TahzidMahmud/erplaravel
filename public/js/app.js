@@ -2083,7 +2083,7 @@ __webpack_require__.r(__webpack_exports__);
     //  "responsive": true, "lengthChange": false, "autoWidth": false,"searching": true,
     //  "buttons": ["copy", "csv", "excel", "pdf", "print", "colvis"]
     //  .buttons().container().appendTo('#example1_wrapper .col-md-6:eq(0)');
-    var data_table = $("#example1").DataTable({
+    this.data_table = $("#example1").DataTable({
       "pageLength": 25,
       "columnDefs": [{
         "title": "Account Code",
@@ -2124,7 +2124,7 @@ __webpack_require__.r(__webpack_exports__);
       // } }
       ]
     });
-    this.populate_table(data_table);
+    this.populate_table(this.data_table);
   },
   watch: {
     codegen: function codegen(val) {
@@ -2141,9 +2141,12 @@ __webpack_require__.r(__webpack_exports__);
     generate_code: function generate_code(val) {
       var _this = this;
 
-      this.last_acc = "";
       axios.get("/last-mainacc/".concat(val)).then(function (res) {
-        _this.last_acc = res.data.last.acc;
+        if (res.data.last == null) {
+          _this.last_acc = "";
+        } else {
+          _this.last_acc = res.data.last.acc;
+        }
 
         if (_this.last_acc == "") {
           switch (val) {
@@ -2186,6 +2189,8 @@ __webpack_require__.r(__webpack_exports__);
       formData.append('level2', this.level2);
       formData.append('level3', this.level3);
       axios.post("/account", formData).then(function (res) {
+        _this2.all_accounts.unshift(formData);
+
         _this2.$fire({
           title: "",
           text: "".concat(res.data.message),
@@ -2196,7 +2201,7 @@ __webpack_require__.r(__webpack_exports__);
         });
 
         if (res.data.type == 'success') {
-          _this2.populate_table();
+          _this2.data_table.row.add(res.data.res).draw();
         }
       })["catch"](function (err) {
         return console.log(err);

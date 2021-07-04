@@ -174,7 +174,7 @@
 //  "responsive": true, "lengthChange": false, "autoWidth": false,"searching": true,
 //  "buttons": ["copy", "csv", "excel", "pdf", "print", "colvis"]
 //  .buttons().container().appendTo('#example1_wrapper .col-md-6:eq(0)');
-         var data_table = $("#example1").DataTable({
+         this.data_table = $("#example1").DataTable({
 
             "pageLength": 25,
             "columnDefs": [
@@ -200,7 +200,7 @@
             ],
 
                 });
-                 this.populate_table(data_table);
+            this.populate_table(this.data_table);
 
 
     },
@@ -219,9 +219,14 @@
             this.codegen=val;
         },
         generate_code(val){
-            this.last_acc="";
+
             axios.get(`/last-mainacc/${val}`).then((res)=>{
-                this.last_acc=res.data.last.acc;
+                if(res.data.last==null){
+                    this.last_acc="";
+                }else{
+                    this.last_acc=res.data.last.acc;
+                }
+
                 if(this.last_acc==""){
                     switch (val) {
                     case 'Asset':
@@ -261,16 +266,17 @@
                 formData.append('level2', this.level2);
                 formData.append('level3', this.level3);
             axios.post(`/account`,formData).then((res)=>{
+                this.all_accounts.unshift(formData);
                 this.$fire({
                     title: "",
                     text: `${res.data.message}`,
                     type: `${res.data.type}`,
                     timer: 3000
                     }).then(r => {
-                    console.log(r.value);
+                    // console.log(r.value);
                     });
                 if(res.data.type=='success'){
-                    this.populate_table();
+                   this.data_table.row.add(res.data.res).draw();
                 }
             }).catch((err)=>console.log(err));
 
