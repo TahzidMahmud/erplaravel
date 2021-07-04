@@ -2057,6 +2057,7 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   props: {
     questions: Array,
@@ -2091,7 +2092,7 @@ __webpack_require__.r(__webpack_exports__);
         "targets": "0"
       }, {
         "title": "Account type",
-        "width": "20%",
+        "width": "10%",
         "targets": "1"
       }, {
         "title": "Use Of Account",
@@ -2105,10 +2106,15 @@ __webpack_require__.r(__webpack_exports__);
         "title": "Account Description",
         "width": "20%",
         "targets": "4"
+      }, {
+        "title": "Active Status",
+        "width": "10%",
+        "targets": "5"
       }],
       "columns": [// { "width": "25%", "render": function (data, type, JsonResultRow, meta) {
       //     return '<img style="height:5rem;width:5rem;" src="./public/images/uploads/products/15/'+JsonResultRow.ximages+'">';
       // } },
+      // <button class="btn btn-success" onClick="openmodal('+JsonResultRow.xitemid+','+JsonResultRow.xstdprice+')">Add</button>
       {
         "data": "acc"
       }, {
@@ -2119,10 +2125,14 @@ __webpack_require__.r(__webpack_exports__);
         "data": "acc_source"
       }, {
         "data": "acc_desc"
-      } // {  "width": "10%" , "render": function (data, type, JsonResultRow, meta) {
-      //     return '<button class="btn btn-success" onClick="openmodal('+JsonResultRow.xitemid+','+JsonResultRow.xstdprice+')">Add</button>';
-      // } }
-      ]
+      }, {
+        "width": "10%",
+        "render": function render(data, type, JsonResultRow, meta) {
+          console.log(JsonResultRow.acc);
+          var temp = "<div class=\"custom-control custom-switch custom-switch-off-danger custom-switch-on-success\">\n                      <input type=\"checkbox\" class=\"custom-control-input\" id=\"customSwitch3\">\n                    </div>";
+          return "<div class=\"custom-control custom-switch custom-switch-off-danger custom-switch-on-success\">\n                      <input type=\"checkbox\" class=\"custom-control-input\" id=\"".concat(JsonResultRow.acc, "\"> <label class=\"custom-control-label\" for=\"").concat(JsonResultRow.acc, "\">Active/Inactive</label>\n                    </div>");
+        }
+      }]
     });
     this.populate_table(this.data_table);
   },
@@ -2196,12 +2206,20 @@ __webpack_require__.r(__webpack_exports__);
           text: "".concat(res.data.message),
           type: "".concat(res.data.type),
           timer: 3000
-        }).then(function (r) {
-          console.log(r.value);
+        }).then(function (r) {// console.log(r.value);
         });
 
         if (res.data.type == 'success') {
           _this2.data_table.row.add(res.data.res).draw();
+
+          _this2.acc = "";
+          _this2.acc_desc = "";
+          _this2.acc_type = "";
+          _this2.acc_use = "";
+          _this2.acc_source = "";
+          _this2.level1 = "";
+          _this2.level2 = "";
+          _this2.level3 = "";
         }
       })["catch"](function (err) {
         return console.log(err);
@@ -23424,7 +23442,9 @@ var staticRenderFns = [
                     _vm._v(" "),
                     _c("th", [_vm._v("Account Source")]),
                     _vm._v(" "),
-                    _c("th", [_vm._v("Account Description")])
+                    _c("th", [_vm._v("Account Description")]),
+                    _vm._v(" "),
+                    _c("th", [_vm._v("Active Status")])
                   ])
                 ]),
                 _vm._v(" "),

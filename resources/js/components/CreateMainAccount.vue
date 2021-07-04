@@ -130,6 +130,7 @@
                   <th>Use Of Account</th>
                   <th>Account Source</th>
                   <th>Account Description</th>
+                  <th>Active Status</th>
                 </tr>
                 </thead>
                 <tbody>
@@ -180,23 +181,31 @@
             "columnDefs": [
 
                 { "title": "Account Code","width": "20%" ,"targets":"0" },
-                { "title": "Account type", "width": "20%" ,"targets":"1"},
+                { "title": "Account type", "width": "10%" ,"targets":"1"},
                 { "title": "Use Of Account", "width": "20%" ,"targets":"2"},
                 { "title": "Account Source", "width": "20%" ,"targets":"3"},
                 { "title": "Account Description", "width": "20%" ,"targets":"4"},
+                {"title":"Active Status","width":"10%","targets":"5"}
             ],
             "columns": [
                 // { "width": "25%", "render": function (data, type, JsonResultRow, meta) {
                 //     return '<img style="height:5rem;width:5rem;" src="./public/images/uploads/products/15/'+JsonResultRow.ximages+'">';
                 // } },
+                // <button class="btn btn-success" onClick="openmodal('+JsonResultRow.xitemid+','+JsonResultRow.xstdprice+')">Add</button>
                 { "data": "acc" },
                 { "data": "acc_type" },
                 { "data": "acc_use" },
                 { "data": "acc_source" },
                 { "data": "acc_desc" },
-                // {  "width": "10%" , "render": function (data, type, JsonResultRow, meta) {
-                //     return '<button class="btn btn-success" onClick="openmodal('+JsonResultRow.xitemid+','+JsonResultRow.xstdprice+')">Add</button>';
-                // } }
+                {  "width": "10%" , "render": function (data, type, JsonResultRow, meta) {
+                    console.log(JsonResultRow.acc);
+                    var temp=`<div class="custom-control custom-switch custom-switch-off-danger custom-switch-on-success">
+                      <input type="checkbox" class="custom-control-input" id="customSwitch3">
+                    </div>`;
+                    return `<div class="custom-control custom-switch custom-switch-off-danger custom-switch-on-success">
+                      <input type="checkbox" class="custom-control-input" id="${JsonResultRow.acc}"> <label class="custom-control-label" for="${JsonResultRow.acc}">Active/Inactive</label>
+                    </div>`;
+                } }
             ],
 
                 });
@@ -277,6 +286,14 @@
                     });
                 if(res.data.type=='success'){
                    this.data_table.row.add(res.data.res).draw();
+                   this.acc="";
+                   this.acc_desc="";
+                   this.acc_type="";
+                   this.acc_use="";
+                   this.acc_source="";
+                   this.level1="";
+                   this.level2="";
+                   this.level3="";
                 }
             }).catch((err)=>console.log(err));
 
