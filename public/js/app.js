@@ -2128,9 +2128,11 @@ __webpack_require__.r(__webpack_exports__);
       }, {
         "width": "10%",
         "render": function render(data, type, JsonResultRow, meta) {
-          console.log(JsonResultRow.acc);
-          var temp = "<div class=\"custom-control custom-switch custom-switch-off-danger custom-switch-on-success\">\n                      <input type=\"checkbox\" class=\"custom-control-input\" id=\"customSwitch3\">\n                    </div>";
-          return "<div class=\"custom-control custom-switch custom-switch-off-danger custom-switch-on-success\">\n                      <input type=\"checkbox\" class=\"custom-control-input\" id=\"".concat(JsonResultRow.acc, "\"> <label class=\"custom-control-label\" for=\"").concat(JsonResultRow.acc, "\">Active/Inactive</label>\n                    </div>");
+          if (JsonResultRow.active == 1) {
+            return "<div class=\"custom-control custom-switch custom-switch-off-danger custom-switch-on-success\">\n                      <input type=\"checkbox\" checked class=\"custom-control-input\"  ref=\"input-".concat(JsonResultRow.id, "\" id=\"").concat(JsonResultRow.id, "\"> <label class=\"custom-control-label\"  :ref=\"label-").concat(JsonResultRow.id, "\" for=\"input-").concat(JsonResultRow.id, "\">Active</label>\n                    </div>");
+          } else {
+            return "<div class=\"custom-control custom-switch custom-switch-off-danger custom-switch-on-success\">\n                      <input type=\"checkbox\"  class=\"custom-control-input\" ref=\"input-".concat(JsonResultRow.id, "\" id=\"").concat(JsonResultRow.id, "\"> <label class=\"custom-control-label\"  :ref=\"label-").concat(JsonResultRow.id, "\" for=\"input-").concat(JsonResultRow.id, "\">Inactive</label>\n                    </div>");
+          }
         }
       }]
     });

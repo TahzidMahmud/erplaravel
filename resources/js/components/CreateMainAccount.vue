@@ -198,13 +198,15 @@
                 { "data": "acc_source" },
                 { "data": "acc_desc" },
                 {  "width": "10%" , "render": function (data, type, JsonResultRow, meta) {
-                    console.log(JsonResultRow.acc);
-                    var temp=`<div class="custom-control custom-switch custom-switch-off-danger custom-switch-on-success">
-                      <input type="checkbox" class="custom-control-input" id="customSwitch3">
+                    if(JsonResultRow.active==1){
+                        return `<div class="custom-control custom-switch custom-switch-off-danger custom-switch-on-success">
+                      <input type="checkbox" checked class="custom-control-input"  ref="input-${JsonResultRow.id}" id="${JsonResultRow.id}"> <label class="custom-control-label"  :ref="label-${JsonResultRow.id}" for="input-${JsonResultRow.id}">Active</label>
                     </div>`;
-                    return `<div class="custom-control custom-switch custom-switch-off-danger custom-switch-on-success">
-                      <input type="checkbox" class="custom-control-input" id="${JsonResultRow.acc}"> <label class="custom-control-label" for="${JsonResultRow.acc}">Active/Inactive</label>
+                    }else{
+                        return `<div class="custom-control custom-switch custom-switch-off-danger custom-switch-on-success">
+                      <input type="checkbox"  class="custom-control-input" ref="input-${JsonResultRow.id}" id="${JsonResultRow.id}"> <label class="custom-control-label"  :ref="label-${JsonResultRow.id}" for="input-${JsonResultRow.id}">Inactive</label>
                     </div>`;
+                    }
                 } }
             ],
 
@@ -303,7 +305,9 @@
                 this.all_accounts=res.data.accounts;
                 this.all_accounts.forEach(element => {
                 data_table.row.add(element).draw();
+
                 });
+
             }).catch((err)=>console.log(err));
         }
 
