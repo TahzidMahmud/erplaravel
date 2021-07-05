@@ -222,6 +222,7 @@
     },
     account_type:function(val){
         this.generate_code(val);
+        //console.log(val);
     }
 
     },
@@ -232,6 +233,7 @@
         generate_code(val){
 
             axios.get(`/last-mainacc/${val}`).then((res)=>{
+                //console.log(res);
                 if(res.data.last==null){
                     this.last_acc="";
                 }else{
@@ -265,7 +267,7 @@
 
 
         },
- 
+
         handle_submit(){
                let formData = new FormData();
                 formData.append('acc', this.acccode);

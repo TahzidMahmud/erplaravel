@@ -20,7 +20,9 @@ class MainAccountController extends Controller
     }
     public function lastacc($type)
     {
-        $res=MainAccount::where('acc_type',$type)->latest()->first();
+        //$res=MainAccount::where('acc_type',$type)->latest()->first();
+
+        $res=MainAccount::where('acc_type',$type)->orderBy('acc', 'desc')->first();
 
         return response(["last"=>$res]);
     }
