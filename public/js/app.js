@@ -2076,6 +2076,7 @@ __webpack_require__.r(__webpack_exports__);
       level2: "",
       level3: "",
       all_accounts: [],
+      selected: [],
       data_table: null
     };
   },
@@ -2129,9 +2130,9 @@ __webpack_require__.r(__webpack_exports__);
         "width": "10%",
         "render": function render(data, type, JsonResultRow, meta) {
           if (JsonResultRow.active == 1) {
-            return "<div class=\"custom-control custom-switch custom-switch-off-danger custom-switch-on-success\">\n                      <input type=\"checkbox\" checked class=\"custom-control-input\"  ref=\"input-".concat(JsonResultRow.id, "\" id=\"").concat(JsonResultRow.id, "\"> <label class=\"custom-control-label\"  :ref=\"label-").concat(JsonResultRow.id, "\" for=\"input-").concat(JsonResultRow.id, "\">Active</label>\n                    </div>");
+            return "<div class=\"custom-control custom-switch custom-switch-off-danger custom-switch-on-success\">\n                      <input type=\"checkbox\" checked class=\"custom-control-input\" v-model=\"selected\"  id=\"input-".concat(JsonResultRow.id, "\"> <label class=\"custom-control-label\"   for=\"input-").concat(JsonResultRow.id, "\" @click=\"update_status(").concat(JsonResultRow.id, ",", true, ")\">Active</label>\n                    </div>");
           } else {
-            return "<div class=\"custom-control custom-switch custom-switch-off-danger custom-switch-on-success\">\n                      <input type=\"checkbox\"  class=\"custom-control-input\" ref=\"input-".concat(JsonResultRow.id, "\" id=\"").concat(JsonResultRow.id, "\"> <label class=\"custom-control-label\"  :ref=\"label-").concat(JsonResultRow.id, "\" for=\"input-").concat(JsonResultRow.id, "\">Inactive</label>\n                    </div>");
+            return "<div class=\"custom-control custom-switch custom-switch-off-danger custom-switch-on-success\">\n                      <input type=\"checkbox\"  class=\"custom-control-input\" v-model=\"selected\"  id=\"input-".concat(JsonResultRow.id, "\"> <label class=\"custom-control-label\" @click=\"update_status(").concat(JsonResultRow.id, ",", false, ")\" for=\"input-").concat(JsonResultRow.id, "\">Inactive</label>\n                    </div>");
           }
         }
       }]
@@ -2143,7 +2144,7 @@ __webpack_require__.r(__webpack_exports__);
       this.code_type(val);
     },
     account_type: function account_type(val) {
-      this.generate_code(val);
+      this.generate_code(val); //console.log(val);
     }
   },
   methods: {
@@ -2154,6 +2155,7 @@ __webpack_require__.r(__webpack_exports__);
       var _this = this;
 
       axios.get("/last-mainacc/".concat(val)).then(function (res) {
+        //console.log(res);
         if (res.data.last == null) {
           _this.last_acc = "";
         } else {
@@ -2225,6 +2227,17 @@ __webpack_require__.r(__webpack_exports__);
         }
       })["catch"](function (err) {
         return console.log(err);
+      });
+    },
+    update_status: function update_status(acc, stat) {
+      var status = !stat;
+      axios.post("/account/".concat(acc), {
+        id: acc,
+        stat: status
+      }).then(function (res) {
+        console.log(res);
+      })["catch"](function (err) {
+        return cosole.log(err);
       });
     },
     populate_table: function populate_table(data_table) {

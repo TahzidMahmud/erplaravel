@@ -166,6 +166,7 @@
        level2:"",
        level3:"",
        all_accounts:[],
+       selected:[],
        data_table:null
     }),
     created(){
@@ -200,11 +201,11 @@
                 {  "width": "10%" , "render": function (data, type, JsonResultRow, meta) {
                     if(JsonResultRow.active==1){
                         return `<div class="custom-control custom-switch custom-switch-off-danger custom-switch-on-success">
-                      <input type="checkbox" checked class="custom-control-input"  ref="input-${JsonResultRow.id}" id="${JsonResultRow.id}"> <label class="custom-control-label"  :ref="label-${JsonResultRow.id}" for="input-${JsonResultRow.id}">Active</label>
+                      <input type="checkbox" checked class="custom-control-input" v-model="selected"  id="input-${JsonResultRow.id}"> <label class="custom-control-label"   for="input-${JsonResultRow.id}" @click="update_status(${JsonResultRow.id},${true})">Active</label>
                     </div>`;
                     }else{
                         return `<div class="custom-control custom-switch custom-switch-off-danger custom-switch-on-success">
-                      <input type="checkbox"  class="custom-control-input" ref="input-${JsonResultRow.id}" id="${JsonResultRow.id}"> <label class="custom-control-label"  :ref="label-${JsonResultRow.id}" for="input-${JsonResultRow.id}">Inactive</label>
+                      <input type="checkbox"  class="custom-control-input" v-model="selected"  id="input-${JsonResultRow.id}"> <label class="custom-control-label" @click="update_status(${JsonResultRow.id},${false})" for="input-${JsonResultRow.id}">Inactive</label>
                     </div>`;
                     }
                 } }
@@ -300,6 +301,18 @@
                    this.level3="";
                 }
             }).catch((err)=>console.log(err));
+
+        },
+        update_status(acc,stat){
+
+            let status=!stat;
+            axios.post(`/account/${acc}`,{
+                id:acc,
+                stat:status
+            }).then((res)=>{
+                console.log(res);
+            }).catch((err)=>cosole.log(err))
+
 
         },
         populate_table(data_table){

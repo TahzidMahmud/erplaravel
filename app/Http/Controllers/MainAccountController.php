@@ -93,7 +93,11 @@ class MainAccountController extends Controller
      */
     public function update(Request $request, MainAccount $mainAccount)
     {
-        //
+        $stat=$request->status?1:0;
+        $res=$mainAccount->update([
+            'active'=>$stat,
+        ]);
+        return response(["res"=>$res]);
     }
 
     /**
