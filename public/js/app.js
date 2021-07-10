@@ -2058,6 +2058,21 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   props: {
     questions: Array,
@@ -2076,68 +2091,12 @@ __webpack_require__.r(__webpack_exports__);
       level2: "",
       level3: "",
       all_accounts: [],
-      selected: [],
-      data_table: null
+      selected: []
     };
   },
   created: function created() {},
   mounted: function mounted() {
-    //  "responsive": true, "lengthChange": false, "autoWidth": false,"searching": true,
-    //  "buttons": ["copy", "csv", "excel", "pdf", "print", "colvis"]
-    //  .buttons().container().appendTo('#example1_wrapper .col-md-6:eq(0)');
-    this.data_table = $("#example1").DataTable({
-      "pageLength": 25,
-      "columnDefs": [{
-        "title": "Account Code",
-        "width": "20%",
-        "targets": "0"
-      }, {
-        "title": "Account type",
-        "width": "10%",
-        "targets": "1"
-      }, {
-        "title": "Use Of Account",
-        "width": "20%",
-        "targets": "2"
-      }, {
-        "title": "Account Source",
-        "width": "20%",
-        "targets": "3"
-      }, {
-        "title": "Account Description",
-        "width": "20%",
-        "targets": "4"
-      }, {
-        "title": "Active Status",
-        "width": "10%",
-        "targets": "5"
-      }],
-      "columns": [// { "width": "25%", "render": function (data, type, JsonResultRow, meta) {
-      //     return '<img style="height:5rem;width:5rem;" src="./public/images/uploads/products/15/'+JsonResultRow.ximages+'">';
-      // } },
-      // <button class="btn btn-success" onClick="openmodal('+JsonResultRow.xitemid+','+JsonResultRow.xstdprice+')">Add</button>
-      {
-        "data": "acc"
-      }, {
-        "data": "acc_type"
-      }, {
-        "data": "acc_use"
-      }, {
-        "data": "acc_source"
-      }, {
-        "data": "acc_desc"
-      }, {
-        "width": "10%",
-        "render": function render(data, type, JsonResultRow, meta) {
-          if (JsonResultRow.active == 1) {
-            return "<div class=\"custom-control custom-switch custom-switch-off-danger custom-switch-on-success\">\n                      <input type=\"checkbox\" checked class=\"custom-control-input\" v-model=\"selected\"  id=\"input-".concat(JsonResultRow.id, "\"> <label class=\"custom-control-label\"   for=\"input-").concat(JsonResultRow.id, "\" @click=\"update_status(").concat(JsonResultRow.id, ",", true, ")\">Active</label>\n                    </div>");
-          } else {
-            return "<div class=\"custom-control custom-switch custom-switch-off-danger custom-switch-on-success\">\n                      <input type=\"checkbox\"  class=\"custom-control-input\" v-model=\"selected\"  id=\"input-".concat(JsonResultRow.id, "\"> <label class=\"custom-control-label\" @click=\"update_status(").concat(JsonResultRow.id, ",", false, ")\" for=\"input-").concat(JsonResultRow.id, "\">Inactive</label>\n                    </div>");
-          }
-        }
-      }]
-    });
-    this.populate_table(this.data_table);
+    this.populate_table();
   },
   watch: {
     codegen: function codegen(val) {
@@ -2230,6 +2189,7 @@ __webpack_require__.r(__webpack_exports__);
       });
     },
     update_status: function update_status(acc, stat) {
+      console.log('hit');
       var status = !stat;
       axios.post("/account/".concat(acc), {
         id: acc,
@@ -2240,18 +2200,17 @@ __webpack_require__.r(__webpack_exports__);
         return cosole.log(err);
       });
     },
-    populate_table: function populate_table(data_table) {
+    populate_table: function populate_table() {
       var _this3 = this;
 
       axios.get("/account").then(function (res) {
         _this3.all_accounts = res.data.accounts;
-
-        _this3.all_accounts.forEach(function (element) {
-          data_table.row.add(element).draw();
-        });
       })["catch"](function (err) {
         return console.log(err);
       });
+    },
+    create_sub: function create_sub() {
+      console.log("hit");
     }
   }
 });
@@ -23414,7 +23373,52 @@ var render = function() {
       ])
     ]),
     _vm._v(" "),
-    _vm._m(1)
+    _c("div", { staticClass: "row" }, [
+      _c("div", { staticClass: "col-12" }, [
+        _c("div", { staticClass: "card" }, [
+          _vm._m(1),
+          _vm._v(" "),
+          _c("div", { staticClass: "card-body" }, [
+            _c(
+              "table",
+              {
+                staticClass: "table table-bordered table-striped",
+                attrs: { id: "example1" }
+              },
+              [
+                _vm._m(2),
+                _vm._v(" "),
+                _c(
+                  "tbody",
+                  _vm._l(_vm.accounts, function(account, index) {
+                    return _c("tr", { key: index }, [
+                      _c("td", [_vm._v(_vm._s(account.acc))]),
+                      _vm._v(" "),
+                      _c("td", [_vm._v(_vm._s(account.acc_type))]),
+                      _vm._v(" "),
+                      _c("td", [_vm._v(_vm._s(account.acc_use))]),
+                      _vm._v(" "),
+                      _c("td", [_vm._v(_vm._s(account.acc_source))]),
+                      _vm._v(" "),
+                      _c("td", [_vm._v(_vm._s(account.acc_desc))]),
+                      _vm._v(" "),
+                      account.active == 1
+                        ? _c("td", [_vm._v("Active")])
+                        : _c("td", [_vm._v("Inavtive")]),
+                      _vm._v(" "),
+                      account.type == "Sub-Account"
+                        ? _c("td", [_c("button", [_vm._v("Action")])])
+                        : _c("td", [_vm._v("None")])
+                    ])
+                  }),
+                  0
+                )
+              ]
+            )
+          ])
+        ])
+      ])
+    ])
   ])
 }
 var staticRenderFns = [
@@ -23430,44 +23434,29 @@ var staticRenderFns = [
     var _vm = this
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "row" }, [
-      _c("div", { staticClass: "col-12" }, [
-        _c("div", { staticClass: "card" }, [
-          _c("div", { staticClass: "card-header" }, [
-            _c("h3", { staticClass: "card-title" }, [
-              _vm._v("List Of Main Accounts")
-            ])
-          ]),
-          _vm._v(" "),
-          _c("div", { staticClass: "card-body" }, [
-            _c(
-              "table",
-              {
-                staticClass: "table table-bordered table-striped",
-                attrs: { id: "example1" }
-              },
-              [
-                _c("thead", [
-                  _c("tr", [
-                    _c("th", [_vm._v("Account Code")]),
-                    _vm._v(" "),
-                    _c("th", [_vm._v("Account type")]),
-                    _vm._v(" "),
-                    _c("th", [_vm._v("Use Of Account")]),
-                    _vm._v(" "),
-                    _c("th", [_vm._v("Account Source")]),
-                    _vm._v(" "),
-                    _c("th", [_vm._v("Account Description")]),
-                    _vm._v(" "),
-                    _c("th", [_vm._v("Active Status")])
-                  ])
-                ]),
-                _vm._v(" "),
-                _c("tbody")
-              ]
-            )
-          ])
-        ])
+    return _c("div", { staticClass: "card-header" }, [
+      _c("h3", { staticClass: "card-title" }, [_vm._v("List Of Main Accounts")])
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("thead", [
+      _c("tr", [
+        _c("th", [_vm._v("Account Code")]),
+        _vm._v(" "),
+        _c("th", [_vm._v("Account type")]),
+        _vm._v(" "),
+        _c("th", [_vm._v("Use Of Account")]),
+        _vm._v(" "),
+        _c("th", [_vm._v("Account Source")]),
+        _vm._v(" "),
+        _c("th", [_vm._v("Account Description")]),
+        _vm._v(" "),
+        _c("th", [_vm._v("Active Status")]),
+        _vm._v(" "),
+        _c("th", [_vm._v("Action")])
       ])
     ])
   }

@@ -131,9 +131,24 @@
                   <th>Account Source</th>
                   <th>Account Description</th>
                   <th>Active Status</th>
+                  <th>Action</th>
                 </tr>
                 </thead>
                 <tbody>
+                    <tr v-for="(account,index) in  accounts" :key="index">
+                        <td>{{account.acc}}</td>
+                        <td>{{account.acc_type}}</td>
+                        <td>{{account.acc_use}}</td>
+                        <td>{{account.acc_source}}</td>
+                        <td>{{account.acc_desc}}</td>
+                        <td v-if="account.active==1">Active</td>
+                        <td v-else>Inavtive</td>
+                        <td v-if="account.type=='Sub-Account'"><button>Action</button></td>
+                        <td v-else>None</td>
+
+
+                    </tr>
+
                 </tbody>
 
               </table>
@@ -167,53 +182,13 @@
        level3:"",
        all_accounts:[],
        selected:[],
-       data_table:null
+
     }),
     created(){
 
     },
     mounted() {
-//  "responsive": true, "lengthChange": false, "autoWidth": false,"searching": true,
-//  "buttons": ["copy", "csv", "excel", "pdf", "print", "colvis"]
-//  .buttons().container().appendTo('#example1_wrapper .col-md-6:eq(0)');
-         this.data_table = $("#example1").DataTable({
-
-            "pageLength": 25,
-            "columnDefs": [
-
-                { "title": "Account Code","width": "20%" ,"targets":"0" },
-                { "title": "Account type", "width": "10%" ,"targets":"1"},
-                { "title": "Use Of Account", "width": "20%" ,"targets":"2"},
-                { "title": "Account Source", "width": "20%" ,"targets":"3"},
-                { "title": "Account Description", "width": "20%" ,"targets":"4"},
-                {"title":"Active Status","width":"10%","targets":"5"}
-            ],
-            "columns": [
-                // { "width": "25%", "render": function (data, type, JsonResultRow, meta) {
-                //     return '<img style="height:5rem;width:5rem;" src="./public/images/uploads/products/15/'+JsonResultRow.ximages+'">';
-                // } },
-                // <button class="btn btn-success" onClick="openmodal('+JsonResultRow.xitemid+','+JsonResultRow.xstdprice+')">Add</button>
-                { "data": "acc" },
-                { "data": "acc_type" },
-                { "data": "acc_use" },
-                { "data": "acc_source" },
-                { "data": "acc_desc" },
-                {  "width": "10%" , "render": function (data, type, JsonResultRow, meta) {
-                    if(JsonResultRow.active==1){
-                        return `<div class="custom-control custom-switch custom-switch-off-danger custom-switch-on-success">
-                      <input type="checkbox" checked class="custom-control-input" v-model="selected"  id="input-${JsonResultRow.id}"> <label class="custom-control-label"   for="input-${JsonResultRow.id}" @click="update_status(${JsonResultRow.id},${true})">Active</label>
-                    </div>`;
-                    }else{
-                        return `<div class="custom-control custom-switch custom-switch-off-danger custom-switch-on-success">
-                      <input type="checkbox"  class="custom-control-input" v-model="selected"  id="input-${JsonResultRow.id}"> <label class="custom-control-label" @click="update_status(${JsonResultRow.id},${false})" for="input-${JsonResultRow.id}">Inactive</label>
-                    </div>`;
-                    }
-                } }
-            ],
-
-                });
-            this.populate_table(this.data_table);
-
+            this.populate_table();
 
     },
     watch: {
@@ -304,7 +279,7 @@
 
         },
         update_status(acc,stat){
-
+            console.log('hit')
             let status=!stat;
             axios.post(`/account/${acc}`,{
                 id:acc,
@@ -315,15 +290,13 @@
 
 
         },
-        populate_table(data_table){
+        populate_table(){
             axios.get(`/account`).then((res)=>{
                 this.all_accounts=res.data.accounts;
-                this.all_accounts.forEach(element => {
-                data_table.row.add(element).draw();
-
-                });
-
             }).catch((err)=>console.log(err));
+        },
+        create_sub(){
+          console.log("hit");
         }
 
     }
