@@ -135,7 +135,7 @@
                 </tr>
                 </thead>
                 <tbody>
-                    <tr v-for="(account,index) in  accounts" :key="index">
+                    <tr v-for="(account,index) in all_accounts" :key="index">
                         <td>{{account.acc}}</td>
                         <td>{{account.acc_type}}</td>
                         <td>{{account.acc_use}}</td>
@@ -143,7 +143,7 @@
                         <td>{{account.acc_desc}}</td>
                         <td v-if="account.active==1">Active</td>
                         <td v-else>Inavtive</td>
-                        <td v-if="account.type=='Sub-Account'"><button>Action</button></td>
+                        <td v-if="account.acc_source=='Sub-Account'"><button class="btn btn-success">Create Sub-Account</button></td>
                         <td v-else>None</td>
 
 
@@ -279,7 +279,7 @@
 
         },
         update_status(acc,stat){
-            console.log('hit')
+
             let status=!stat;
             axios.post(`/account/${acc}`,{
                 id:acc,

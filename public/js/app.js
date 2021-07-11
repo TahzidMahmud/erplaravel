@@ -2189,7 +2189,6 @@ __webpack_require__.r(__webpack_exports__);
       });
     },
     update_status: function update_status(acc, stat) {
-      console.log('hit');
       var status = !stat;
       axios.post("/account/".concat(acc), {
         id: acc,
@@ -23390,7 +23389,7 @@ var render = function() {
                 _vm._v(" "),
                 _c(
                   "tbody",
-                  _vm._l(_vm.accounts, function(account, index) {
+                  _vm._l(_vm.all_accounts, function(account, index) {
                     return _c("tr", { key: index }, [
                       _c("td", [_vm._v(_vm._s(account.acc))]),
                       _vm._v(" "),
@@ -23406,8 +23405,12 @@ var render = function() {
                         ? _c("td", [_vm._v("Active")])
                         : _c("td", [_vm._v("Inavtive")]),
                       _vm._v(" "),
-                      account.type == "Sub-Account"
-                        ? _c("td", [_c("button", [_vm._v("Action")])])
+                      account.acc_source == "Sub-Account"
+                        ? _c("td", [
+                            _c("button", { staticClass: "btn btn-success" }, [
+                              _vm._v("Create Sub-Account")
+                            ])
+                          ])
                         : _c("td", [_vm._v("None")])
                     ])
                   }),
