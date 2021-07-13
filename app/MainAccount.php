@@ -11,5 +11,9 @@ class MainAccount extends Model
         "acc_use", "acc_source", "level1", "level2", "level3", "active",
         "flag", "date", "insert_by", "update_by"
     ];
+    public function subaccounts()
+    {
+        return $this->hasMany('App\SubAccount');
+    }
 
 }
