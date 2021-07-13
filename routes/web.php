@@ -17,8 +17,8 @@ Route::get('/', function () {
     return view('dashboard');
 });
 
-Route::resource('account','MainAccountController');
-Route::post('/account/{account}','MainAccountController@update');
+Route::resource('accounts','MainAccountController');
+
 Route::get('/last-mainacc/{type}','MainAccountController@lastacc');
 
 //Auth::routes();

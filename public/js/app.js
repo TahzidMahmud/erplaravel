@@ -2161,7 +2161,7 @@ __webpack_require__.r(__webpack_exports__);
       formData.append('level1', this.level1);
       formData.append('level2', this.level2);
       formData.append('level3', this.level3);
-      axios.post("/account", formData).then(function (res) {
+      axios.post("/accounts", formData).then(function (res) {
         _this2.all_accounts.unshift(formData);
 
         _this2.$fire({
@@ -2189,21 +2189,41 @@ __webpack_require__.r(__webpack_exports__);
       });
     },
     update_status: function update_status(acc, stat) {
+      var _this3 = this;
+
       var status = !stat;
-      axios.post("/account/".concat(acc), {
+      axios.patch("/accounts/".concat(acc), {
         id: acc,
-        stat: status
+        status: status
       }).then(function (res) {
-        console.log(res);
+        if (res.data.res) {
+          _this3.$fire({
+            title: "",
+            text: "Updated Successfully..!!",
+            type: "success",
+            timer: 3000
+          }).then(function (r) {// console.log(r.value);
+          });
+
+          _this3.populate_table();
+        } else {
+          _this3.$fire({
+            title: "",
+            text: "Update Failed..!!",
+            type: "error",
+            timer: 3000
+          }).then(function (r) {// console.log(r.value);
+          });
+        }
       })["catch"](function (err) {
         return cosole.log(err);
       });
     },
     populate_table: function populate_table() {
-      var _this3 = this;
+      var _this4 = this;
 
-      axios.get("/account").then(function (res) {
-        _this3.all_accounts = res.data.accounts;
+      axios.get("/accounts").then(function (res) {
+        _this4.all_accounts = res.data.accounts;
       })["catch"](function (err) {
         return console.log(err);
       });
@@ -23402,8 +23422,36 @@ var render = function() {
                       _c("td", [_vm._v(_vm._s(account.acc_desc))]),
                       _vm._v(" "),
                       account.active == 1
-                        ? _c("td", [_vm._v("Active")])
-                        : _c("td", [_vm._v("Inavtive")]),
+                        ? _c("td", [
+                            _c("p", [_vm._v("Active")]),
+                            _c(
+                              "a",
+                              {
+                                attrs: { href: "#" },
+                                on: {
+                                  click: function($event) {
+                                    return _vm.update_status(account.id, true)
+                                  }
+                                }
+                              },
+                              [_vm._v("Make Inactive")]
+                            )
+                          ])
+                        : _c("td", [
+                            _c("p", [_vm._v("Inactive")]),
+                            _c(
+                              "a",
+                              {
+                                attrs: { href: "#" },
+                                on: {
+                                  click: function($event) {
+                                    return _vm.update_status(account.id, false)
+                                  }
+                                }
+                              },
+                              [_vm._v("Make Active")]
+                            )
+                          ]),
                       _vm._v(" "),
                       account.acc_source == "Sub-Account"
                         ? _c("td", [

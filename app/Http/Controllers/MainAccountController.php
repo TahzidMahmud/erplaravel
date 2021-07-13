@@ -70,7 +70,8 @@ class MainAccountController extends Controller
      */
     public function show(MainAccount $mainAccount)
     {
-        //
+        return response(["account"=>$mainAccount]);
+
     }
 
     /**
@@ -91,8 +92,9 @@ class MainAccountController extends Controller
      * @param  \App\MainAccount  $mainAccount
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, MainAccount $mainAccount)
+    public function update(Request $request, $account)
     {
+        $mainAccount=MainAccount::findOrFail($account);
         $stat=$request->status?1:0;
         $res=$mainAccount->update([
             'active'=>$stat,

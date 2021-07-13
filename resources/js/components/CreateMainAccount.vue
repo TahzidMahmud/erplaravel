@@ -141,8 +141,8 @@
                         <td>{{account.acc_use}}</td>
                         <td>{{account.acc_source}}</td>
                         <td>{{account.acc_desc}}</td>
-                        <td v-if="account.active==1">Active</td>
-                        <td v-else>Inavtive</td>
+                        <td v-if="account.active==1"><p>Active</p><a href="#"  @click="update_status(account.id,true)">Make Inactive</a></td>
+                        <td v-else><p>Inactive</p><a href="#" @click="update_status(account.id,false)">Make Active</a></td>
                         <td v-if="account.acc_source=='Sub-Account'"><button class="btn btn-success">Create Sub-Account</button></td>
                         <td v-else>None</td>
 
@@ -254,7 +254,7 @@
                 formData.append('level1', this.level1);
                 formData.append('level2', this.level2);
                 formData.append('level3', this.level3);
-            axios.post(`/account`,formData).then((res)=>{
+            axios.post(`/accounts`,formData).then((res)=>{
                 this.all_accounts.unshift(formData);
                 this.$fire({
                     title: "",
@@ -281,17 +281,36 @@
         update_status(acc,stat){
 
             let status=!stat;
-            axios.post(`/account/${acc}`,{
+            axios.patch(`/accounts/${acc}`,{
                 id:acc,
-                stat:status
+                status:status
             }).then((res)=>{
-                console.log(res);
+                if(res.data.res){
+                    this.$fire({
+                    title: "",
+                    text: `Updated Successfully..!!`,
+                    type: `success`,
+                    timer: 3000
+                    }).then(r => {
+                    // console.log(r.value);
+                    });
+                    this.populate_table();
+                }else{
+                    this.$fire({
+                    title: "",
+                    text: `Update Failed..!!`,
+                    type: `error`,
+                    timer: 3000
+                    }).then(r => {
+                    // console.log(r.value);
+                    });
+                }
             }).catch((err)=>cosole.log(err))
 
 
         },
         populate_table(){
-            axios.get(`/account`).then((res)=>{
+            axios.get(`/accounts`).then((res)=>{
                 this.all_accounts=res.data.accounts;
             }).catch((err)=>console.log(err));
         },

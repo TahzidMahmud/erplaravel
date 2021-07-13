@@ -413,7 +413,7 @@
             </a>
             <ul class="nav nav-treeview">
               <li class="nav-item">
-                <a href="{{ route("account.create") }}" class="nav-link">
+                <a href="{{ route("accounts.create") }}" class="nav-link">
                   <i class="far fa-circle nav-icon"></i>
                   <p>Main Account</p>
                 </a>
