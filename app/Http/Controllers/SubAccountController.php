@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\SubAccount;
+use App\MainAccount;
+
 use Illuminate\Http\Request;
 
 class SubAccountController extends Controller
@@ -22,9 +24,12 @@ class SubAccountController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create()
+    public function create($account)
     {
-        //
+        $main_acc=MainAccount::findORFail($account);
+        // dd($main_acc);
+       return view("SubAccount.Create");
+
     }
 
     /**

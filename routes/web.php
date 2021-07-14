@@ -16,10 +16,12 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', function () {
     return view('dashboard');
 });
-
+// main account routes
 Route::resource('accounts','MainAccountController');
-
 Route::get('/last-mainacc/{type}','MainAccountController@lastacc');
+
+// sub accoutn routes
+Route::resource('accounts.subaccounts', 'SubAccountController');
 
 //Auth::routes();
 

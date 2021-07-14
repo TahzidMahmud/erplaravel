@@ -3,6 +3,7 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
+use App\MainAccount;
 
 class SubAccount extends Model
 {
@@ -11,7 +12,7 @@ class SubAccount extends Model
         "flag", "insert_by", "update_by"
     ];
     public function main_account(){
-        return $this->belongsTo('App\MainAccount', 'acc', 'id');
+        return $this->belongsTo(MainAccount::class, 'acc', 'id');
     }
 
 }
